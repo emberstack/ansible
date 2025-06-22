@@ -1,0 +1,33 @@
+---
+namespace: emberstack
+name: fortios
+version: 1.0.0
+readme: README.md
+authors:
+  - EmberStack <support@emberstack.com>
+description: EmberStack FortiOS Collection for Fortinet device automation
+license:
+  - MIT
+license_file: LICENSE
+tags:
+  - emberstack
+  - framework
+  - infrastructure
+  - networking
+  - fortinet
+  - fortigate
+  - security
+  - firewall
+  - automation
+dependencies: {}
+repository: https://github.com/emberstack/es.fx.ansible
+documentation: https://github.com/emberstack/es.fx.ansible
+homepage: https://github.com/emberstack/es.fx.ansible
+issues: https://github.com/emberstack/es.fx.ansible/issues
+build_ignore:
+  - .DS_Store
+  - .git
+  - .gitignore
+  - .github
+  - tests/output
+  - '*.tar.gz'

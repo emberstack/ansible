@@ -1,0 +1,186 @@
+# Host name
+- name: Configure system hostname
+  fortinet.fortios.fortios_system_global:
+    access_token: "{{ access_token }}"
+    system_global:
+      hostname: "{{ settings.global.hostname }}"
+  when: settings.global.hostname is defined
+
+# System Time
+- name: Configure system timezone
+  fortinet.fortios.fortios_system_global:
+    access_token: "{{ access_token }}"
+    system_global:
+      timezone: "{{ settings.global.timezone }}"
+
+- name: Configure NTP synchronization
+  fortinet.fortios.fortios_system_ntp:
+    access_token: "{{ access_token }}"
+    system_ntp:
+      ntpsync: "{{ 'enable' if (settings.global.ntp.sync) else 'disable' }}"
+      syncinterval: "{{ settings.global.ntp.sync_interval }}"
+      type: "fortiguard"
+
+# Admin server certificate configuration
+- name: Set admin server certificate
+  when: settings.global.admin.admin_server_cert is defined
+  block:
+    # Check all certificates at once for efficiency
+    - name: Get all available certificates
+      fortinet.fortios.fortios_monitor_fact:
+        access_token: "{{ access_token }}"
+        selector: "system_available-certificates"
+      register: all_available_certs
+      failed_when: false
+      
+    # Find our certificate
+    - name: Check if admin certificate is available
+      set_fact:
+        admin_cert_available: >-
+          {%- set found_certs = all_available_certs.meta.results | default([]) | selectattr('name', 'eq', settings.global.admin.admin_server_cert) | selectattr('status', 'eq', 'valid') | list -%}
+          {{ found_certs | length > 0 }}
+        admin_cert_info: >-
+          {%- set found_certs = all_available_certs.meta.results | default([]) | selectattr('name', 'eq', settings.global.admin.admin_server_cert) | list -%}
+          {%- if found_certs | length > 0 -%}
+            {{ found_certs[0] }}
+          {%- else -%}
+            {}
+          {%- endif -%}
+    
+    # Check if certificate is already set as admin cert
+    - name: Get current admin certificate
+      fortinet.fortios.fortios_configuration_fact:
+        access_token: "{{ access_token }}"
+        selector: "system_global"
+      register: system_global_config
+      failed_when: false
+    
+    - name: Debug system global config response
+      debug:
+        var: system_global_config
+        verbosity: 2
+    
+    - name: Check if admin certificate needs to be updated
+      set_fact:
+        current_admin_cert: "{{ system_global_config.meta.results['admin-server-cert'] | default(system_global_config.meta.results.admin_server_cert | default('')) }}"
+        admin_cert_needs_update: >-
+          {{ admin_cert_available | bool and 
+             system_global_config.meta.results['admin-server-cert'] | default(system_global_config.meta.results.admin_server_cert | default('')) != settings.global.admin.admin_server_cert }}
+    
+    - name: Debug admin certificate comparison
+      debug:
+        msg: |
+          Current admin cert: '{{ system_global_config.meta.results["admin-server-cert"] | default("") }}'
+          Desired admin cert: '{{ settings.global.admin.admin_server_cert }}'
+          Needs update: {{ admin_cert_needs_update }}
+      when: admin_cert_available | bool
+      
+    - name: Apply admin server certificate
+      fortinet.fortios.fortios_system_global:
+        access_token: "{{ access_token }}"
+        system_global:
+          admin_server_cert: "{{ settings.global.admin.admin_server_cert }}"
+      when: admin_cert_needs_update | bool
+      register: admin_cert_result
+      
+    - name: Report certificate status
+      debug:
+        msg: |
+          Certificate '{{ settings.global.admin.admin_server_cert }}' status:
+          {% if not all_available_certs.failed | default(false) and admin_cert_info %}
+          - Status: {{ admin_cert_info.status | default('unknown') }}
+          - Expiry: {{ admin_cert_info.valid_to | default('unknown') }}
+          - Already set as admin cert: {{ not admin_cert_needs_update }}
+          - Applied to admin GUI: {{ admin_cert_result.changed | default(false) }}
+          {% else %}
+          - NOT FOUND: Certificate does not exist or is still enrolling
+          {% endif %}
+          
+          {% if not admin_cert_available | bool %}
+          NOTE: The certificate may still be enrolling. You can run this playbook again later to apply the certificate once enrollment is complete.
+          {% endif %}
+      
+    # Verify the change was applied
+    - name: Verify admin certificate was applied
+      fortinet.fortios.fortios_configuration_fact:
+        access_token: "{{ access_token }}"
+        selector: "system_global"
+      register: verify_admin_cert
+      when: 
+        - admin_cert_needs_update | bool
+        - admin_cert_result.changed | default(false)
+    
+    - name: Show verification result
+      debug:
+        msg: "Admin certificate after update: {{ verify_admin_cert.meta.results['admin-server-cert'] | default('unknown') }}"
+      when: verify_admin_cert is defined and not verify_admin_cert.skipped | default(false)
+
+- name: Handle admin port configuration
+  include_tasks: admin_port.yaml
+  when: settings.global.admin is defined
+
+# WiFi Settings
+- name: Configure wireless controller country
+  fortinet.fortios.fortios_wireless_controller_setting:
+    access_token: "{{ access_token }}"
+    wireless_controller_setting:
+      country: "{{ settings.wireless_controller.global.country }}"
+
+# Password Policy
+- name: Configure password policy
+  no_log: false
+  fortinet.fortios.fortios_system_password_policy:
+    access_token: "{{ access_token }}"
+    system_password_policy:
+      status: "{{ 'enable' if (settings.password_policy.enabled) else 'disable' }}"
+      apply_to: "{{ settings.password_policy.apply_to }}"
+
+      minimum_length: "{{ settings.password_policy.min_length }}"
+      min_change_characters: "{{ settings.password_policy.min_change_characters }}"
+
+      min_upper_case_letter: "{{ settings.password_policy.character_requirements.min_upper_case }}"
+      min_lower_case_letter: "{{ settings.password_policy.character_requirements.min_lower_case }}"
+      min_non_alphanumeric: "{{ settings.password_policy.character_requirements.min_non_alpha }}"
+      min_number: "{{ settings.password_policy.character_requirements.min_number }}"
+
+      expire_status: "{{ 'enable' if (settings.password_policy.expiration.enabled) else 'disable' }}"
+      expire_day: "{{ settings.password_policy.expiration.days }}"
+      reuse_password: "{{ 'enable' if (settings.password_policy.reuse) else 'disable' }}"
+
+# View Settings
+- name: Configure GUI theme and settings
+  fortinet.fortios.fortios_system_global:
+    access_token: "{{ access_token }}"
+    system_global:
+      gui_theme: "{{ settings.global.gui.theme }}"
+      gui_date_time_source: "{{ settings.global.gui.timesource }}"
+
+- name: Configure auto-install settings
+  fortinet.fortios.fortios_system_auto_install:
+    access_token: "{{ access_token }}"
+    system_auto_install:
+      auto_install_config: "{{ 'enable' if (settings.auto_install.config) else 'disable' }}"
+      auto_install_image: "{{ 'enable' if (settings.auto_install.image) else 'disable' }}"
+
+- name: Configure automatic filesystem check
+  fortinet.fortios.fortios_system_global:
+    access_token: "{{ access_token }}"
+    system_global:
+      autorun_log_fsck: "{{ 'enable' if (settings.global.auto_filesystem_check) else 'disable' }}"
+
+# Feature visibility
+- name: Configure system feature visibility
+  fortinet.fortios.fortios_system_settings:
+    access_token: "{{ access_token }}"
+    system_settings: "{{ settings.settings.feature_visibility}}"
+
+- name: Configure global feature visibility
+  fortinet.fortios.fortios_system_global:
+    access_token: "{{ access_token }}"
+    system_global: "{{ settings.global.feature_visibility}}"
+
+# Log Disk Settings
+- name: Configure log disk settings
+  fortinet.fortios.fortios_log_disk_setting:
+    access_token: "{{ access_token }}"
+    log_disk_setting: "{{ settings.log_disk_setting}}"

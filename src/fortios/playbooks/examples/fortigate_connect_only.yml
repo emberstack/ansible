@@ -1,0 +1,39 @@
+---
+# FortiGate Connection Test Playbook
+# This playbook only connects to FortiGate and gathers facts without making any changes
+
+- name: Test FortiGate Connection
+  hosts: fortigates
+  gather_facts: no
+  collections:
+    - emberstack.fortios
+    - fortinet.fortios
+  
+  vars:
+    
+    # Set empty variables to prevent any configuration changes
+    # The role will only run connection and version detection tasks
+    fortigate_system_settings: {}
+    fortigate_interfaces: []
+    fortigate_firewall_addresses: []
+    fortigate_firewall_policies: []
+  
+  tasks:
+    - name: Include FortiGate connection tasks only
+      include_role:
+        name: fortigate
+        tasks_from: connection.yaml
+    
+    - name: Gather version facts
+      include_role:
+        name: fortigate
+        tasks_from: version_facts.yaml
+    
+    - name: Display connection information
+      debug:
+        msg:
+          - "Successfully connected to FortiGate!"
+          - "Hostname: {{ fortigate_hostname | default('Not detected') }}"
+          - "Model: {{ fortigate_model | default('Not detected') }}"
+          - "Version: {{ fortigate_version | default('Not detected') }}"
+          - "Serial: {{ fortigate_serial | default('Not detected') }}"

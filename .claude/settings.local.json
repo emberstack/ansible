@@ -1,0 +1,20 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(find:*)",
+      "Bash(mkdir:*)",
+      "Bash(rmdir:*)",
+      "Bash(rm:*)",
+      "Bash(cp:*)",
+      "Bash([ -d docs ])",
+      "Bash([ -d tests ])",
+      "Bash([ -d plugins ])",
+      "Bash(tree:*)",
+      "Bash(touch:*)",
+      "Bash(ansible-galaxy:*)",
+      "Bash(ansible-playbook:*)",
+      "Bash(mv:*)"
+    ],
+    "deny": []
+  }
+}

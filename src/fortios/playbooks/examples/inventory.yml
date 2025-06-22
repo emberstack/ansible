@@ -1,0 +1,15 @@
+---
+# Example inventory for FortiGate devices using API key
+all:
+  children:
+    fortigates:
+      hosts:
+        fortigate-01:
+          ansible_host: 10.10.0.1       # Replace with your FortiGate IP
+          access_token: "api-key" # Replace with your API key
+          vdom: root                        # VDOM to connect to (default: root)
+          ansible_httpapi_port: 5443
+          ansible_network_os: fortinet.fortios.fortios
+          ansible_connection: httpapi
+          ansible_httpapi_use_ssl: true
+          ansible_httpapi_validate_certs: false
