@@ -19,7 +19,7 @@ The EmberStack FortiOS collection (`emberstack.fortios`) provides production-rea
 
 ### Install from Source
 ```bash
-ansible-galaxy collection install git+https://github.com/emberstack/es.fx.ansible.git#/src/fortios
+ansible-galaxy collection install git+https://github.com/emberstack/ansible.git#/src/fortios
 ```
 
 ### Install from Local Directory
@@ -140,8 +140,8 @@ ansible-test integration
 
 ## Support
 
-- **Repository**: [GitHub](https://github.com/emberstack/es.fx.ansible)
-- **Issues**: [GitHub Issues](https://github.com/emberstack/es.fx.ansible/issues)
+- **Repository**: [GitHub](https://github.com/emberstack/ansible)
+- **Issues**: [GitHub Issues](https://github.com/emberstack/ansible/issues)
 
 ## License
 

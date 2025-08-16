@@ -26,8 +26,8 @@ Comprehensive automation for Fortinet FortiOS devices including FortiGate firewa
 ### Install All Collections
 ```bash
 # Clone the repository
-git clone https://github.com/emberstack/es.fx.ansible.git
-cd es.fx.ansible
+git clone https://github.com/emberstack/ansible.git
+cd ansible
 
 # Install all collections
 for collection in src/*/; do
@@ -41,13 +41,13 @@ done
 ansible-galaxy collection install ./src/fortios
 
 # Or directly from GitHub
-ansible-galaxy collection install git+https://github.com/emberstack/es.fx.ansible.git#/src/fortios
+ansible-galaxy collection install git+https://github.com/emberstack/ansible.git#/src/fortios
 ```
 
 ### Using as Git Submodule
 ```bash
 # Add repository as submodule
-git submodule add https://github.com/emberstack/es.fx.ansible.git ansible_collections_repo
+git submodule add https://github.com/emberstack/ansible.git ansible_collections_repo
 
 # Use collections from the submodule
 export ANSIBLE_COLLECTIONS_PATH="${PWD}/ansible_collections_repo/src:~/.ansible/collections"
@@ -56,7 +56,7 @@ export ANSIBLE_COLLECTIONS_PATH="${PWD}/ansible_collections_repo/src:~/.ansible/
 ## Repository Structure
 
 ```
-es.fx.ansible/
+ansible/
 ├── src/
 │   └── fortios/             # FortiOS collection
 │       ├── galaxy.yml
@@ -97,8 +97,8 @@ es.fx.ansible/
 ### Setting Up Development Environment
 ```bash
 # Clone the repository
-git clone https://github.com/emberstack/es.fx.ansible.git
-cd es.fx.ansible
+git clone https://github.com/emberstack/ansible.git
+cd ansible
 
 # Install collections for development
 for collection in src/*/; do
@@ -120,8 +120,8 @@ We welcome contributions! Please see our contributing guidelines for details.
 
 ## Support
 
-- **Issues**: [GitHub Issues](https://github.com/emberstack/es.fx.ansible/issues)
-- **Discussions**: [GitHub Discussions](https://github.com/emberstack/es.fx.ansible/discussions)
+- **Issues**: [GitHub Issues](https://github.com/emberstack/ansible/issues)
+- **Discussions**: [GitHub Discussions](https://github.com/emberstack/ansible/discussions)
 
 ## License
 

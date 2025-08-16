@@ -19,7 +19,7 @@ ansible-test sanity
 ansible-test integration
 
 # Install from source
-ansible-galaxy collection install git+https://github.com/emberstack/es.fx.ansible.git#/src/fortios
+ansible-galaxy collection install git+https://github.com/emberstack/ansible.git#/src/fortios
 ```
 
 ## Architecture and Structure

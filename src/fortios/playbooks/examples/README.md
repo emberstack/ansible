@@ -6,11 +6,11 @@
 
 ```bash
 # Install from the repository
-cd /path/to/es.fx.ansible
+cd /path/to/ansible
 ansible-galaxy collection install ./src/fortios --force
 
 # Or install from GitHub
-ansible-galaxy collection install git+https://github.com/emberstack/es.fx.ansible.git#/src/fortios
+ansible-galaxy collection install git+https://github.com/emberstack/ansible.git#/src/fortios
 ```
 
 ### 2. Generate API Key on FortiGate

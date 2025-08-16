@@ -20,10 +20,10 @@ tags:
   - firewall
   - automation
 dependencies: {}
-repository: https://github.com/emberstack/es.fx.ansible
-documentation: https://github.com/emberstack/es.fx.ansible
-homepage: https://github.com/emberstack/es.fx.ansible
-issues: https://github.com/emberstack/es.fx.ansible/issues
+repository: https://github.com/emberstack/ansible
+documentation: https://github.com/emberstack/ansible
+homepage: https://github.com/emberstack/ansible
+issues: https://github.com/emberstack/ansible/issues
 build_ignore:
   - .DS_Store
   - .git
