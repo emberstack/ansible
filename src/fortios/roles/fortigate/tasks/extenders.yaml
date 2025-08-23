@@ -6,6 +6,8 @@
     vdom: "{{ extender.vdom | default('root') }}"
     state: "{{ extender.state | default('present') }}"
     access_token: "{{ access_token }}"
+    member_path: "name"
+    member_state: "{{ extender.state | default('present') }}"
     extension_controller_extender: "{{ extender.extension_controller_extender }}"
   loop: "{{ fortigate_controller_extension_extenders }}"
   loop_control:
