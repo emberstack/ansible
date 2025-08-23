@@ -1,0 +1,11 @@
+---
+# VSCode installation defaults
+
+# Install system-wide (true) or for specific users (false)
+vscode_install_system_wide: true
+
+# List of users to install for (when install_system_wide is false)
+vscode_install_for_users: []
+
+# VSCode extensions to install
+vscode_extensions: []

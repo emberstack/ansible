@@ -1,0 +1,13 @@
+---
+# System updater defaults
+
+# Type of upgrade to perform
+# Options: safe, full, dist
+updater_upgrade_type: safe
+
+# Automatic cleanup after upgrade
+updater_cleanup: true
+
+# Reboot handling
+updater_reboot_if_required: false
+updater_reboot_timeout: 600

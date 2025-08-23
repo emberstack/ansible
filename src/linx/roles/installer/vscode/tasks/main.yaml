@@ -1,0 +1,54 @@
+---
+# Install Visual Studio Code
+
+- name: Install required packages for repository management
+  apt:
+    name:
+      - curl
+      - gpg
+      - apt-transport-https
+    state: present
+    update_cache: yes
+
+- name: Download and install Microsoft GPG key
+  shell: |
+    curl -fsSL https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor -o /usr/share/keyrings/microsoft.gpg
+  args:
+    creates: /usr/share/keyrings/microsoft.gpg
+
+- name: Add VSCode repository
+  copy:
+    content: |
+      Types: deb
+      URIs: https://packages.microsoft.com/repos/code
+      Suites: stable
+      Components: main
+      Architectures: amd64,arm64,armhf
+      Signed-By: /usr/share/keyrings/microsoft.gpg
+    dest: /etc/apt/sources.list.d/vscode.sources
+    owner: root
+    group: root
+    mode: '0644'
+  register: repo_added
+
+- name: Update apt cache after adding repository
+  apt:
+    update_cache: yes
+  when: repo_added is changed
+
+- name: Install Visual Studio Code
+  apt:
+    name: code
+    state: latest
+
+- name: Install VSCode extensions for specific users
+  become: yes
+  become_user: "{{ item.0 }}"
+  command: "code --install-extension {{ item.1 }} --force"
+  loop: "{{ vscode_install_for_users | product(vscode_extensions) | list }}"
+  when: 
+    - not vscode_install_system_wide
+    - vscode_install_for_users | length > 0
+    - vscode_extensions | length > 0
+  register: extension_result
+  changed_when: "'successfully installed' in extension_result.stdout"

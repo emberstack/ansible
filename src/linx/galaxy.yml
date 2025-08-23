@@ -1,0 +1,19 @@
+---
+namespace: emberstack
+name: linx
+version: 1.0.0
+readme: README.md
+authors:
+  - EmberStack
+description: Linux System Management Collection
+tags:
+  - linux
+  - system
+  - installer
+  - maintenance
+dependencies: {}
+build_ignore:
+  - .DS_Store
+  - .git
+  - .gitignore
+  - '*.tar.gz'
