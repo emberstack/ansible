@@ -8,9 +8,11 @@
 
 - name: Set facts for port management
   set_fact:
-    current_https_port: "{{ current_config.meta.results.admin_sport | default(443) | int }}"
+    # Use the connection port we're already on as the current port if admin_sport is not returned
+    current_https_port: "{{ current_config.meta.results.admin_sport | default(ansible_httpapi_port) | int }}"
     desired_https_port: "{{ settings.global.admin.https_port | int }}"
-    port_change_needed: "{{ (current_config.meta.results.admin_sport | default(443) | int) != (settings.global.admin.https_port | int) }}"
+    # Only change if we have a value AND it's different, or if we're on default 443
+    port_change_needed: "{{ (ansible_httpapi_port | int != settings.global.admin.https_port | int) }}"
 
 - name: Display port change info
   debug:
