@@ -1,7 +1,7 @@
 ---
 # Unified FortiGate configuration role
 
-# Connection and version detection (from fortigate_common)
+# Connection establishment
 - name: Establish FortiGate connection
   include_tasks: connection.yaml
   tags:
@@ -9,6 +9,7 @@
     - fortigate-base
     - fortigate-all
 
+# Version detection and capabilities
 - name: Detect FortiGate version and capabilities
   include_tasks: version_facts.yaml
   when: fortigate_version is not defined

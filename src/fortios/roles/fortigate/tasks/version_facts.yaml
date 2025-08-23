@@ -13,6 +13,8 @@
   set_fact:
     fortigate_version: "{{ fortigate_status.meta.version }}"
     fortigate_model: "{{ fortigate_status.meta.serial | regex_search('^[A-Z]+') | default('Generic') }}"
+    fortigate_hostname: "{{ fortigate_status.meta.results.hostname }}"
+    fortigate_serial: "{{ fortigate_status.meta.serial }}"
     fortigate_major_version: "{{ fortigate_status.meta.version.split('.')[0] }}.{{ fortigate_status.meta.version.split('.')[1] }}"
   when: 
     - fortigate_status is defined
@@ -50,3 +52,9 @@
       supports_fortiextender: true
       max_vdoms: 10
   when: fortigate_model_capabilities is not defined
+
+# Display connection info
+- name: Display connection info
+  debug:
+    msg: "Connected to {{ fortigate_hostname | default(ansible_host) }} ({{ ansible_host }}:{{ ansible_httpapi_port }}) - Model: {{ fortigate_model | default('Unknown') }} - Version: {{ fortigate_version | default('Unknown') }}"
+  when: fortigate_status is succeeded
