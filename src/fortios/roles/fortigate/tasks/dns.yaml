@@ -9,7 +9,7 @@
   when: fortigate_system_dns is defined
 
 # Configure DNS databases
-- name: Configure DNS database - {{ item.system_dns_database.name }}
+- name: "Configure DNS database: {{ item.system_dns_database.name }}"
   fortinet.fortios.fortios_system_dns_database:
     access_token: "{{ access_token }}"
     state: "{{ item.state | default('present') }}"
@@ -20,7 +20,7 @@
   when: fortigate_dns_databases | length > 0
 
 # Configure DNS entries
-- name: Configure DNS entries for {{ item.system_dns_database.name }}
+- name: "Configure DNS entries for: {{ item.system_dns_database.name }}"
   fortinet.fortios.fortios_system_dns_database:
     access_token: "{{ access_token }}"
     state: "present"

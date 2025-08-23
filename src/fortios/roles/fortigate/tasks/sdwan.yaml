@@ -12,7 +12,7 @@
 
 
 # Configure SD-WAN services
-- name: Configure SD-WAN service - {{ service.name }}
+- name: "Configure SD-WAN service: {{ service.name }}"
   fortinet.fortios.fortios_system_sdwan:
     access_token: "{{ access_token }}"
     member_path: "service:id"

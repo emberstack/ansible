@@ -2,7 +2,7 @@
 # Configure local users and user groups
 
 # Configure local users
-- name: Configure local user - {{ item.user_local.name }}
+- name: "Configure local user: {{ item.user_local.name }}"
   fortinet.fortios.fortios_user_local:
     access_token: "{{ access_token }}"
     state: "{{ item.state | default('present') }}"
@@ -13,7 +13,7 @@
   when: fortigate_local_users | length > 0
 
 # Configure user groups
-- name: Configure user group - {{ item.user_group.name }}
+- name: "Configure user group: {{ item.user_group.name }}"
   fortinet.fortios.fortios_user_group:
     access_token: "{{ access_token }}"
     state: "{{ item.state | default('present') }}"

@@ -1,7 +1,7 @@
 ---
 # Extension controller dataplan configuration tasks
 
-- name: Configure extension controller dataplan - {{ dataplan.extension_controller_dataplan.name }}
+- name: "Configure extension controller dataplan: {{ dataplan.extension_controller_dataplan.name }}"
   fortinet.fortios.fortios_extension_controller_dataplan:
     vdom: "{{ dataplan.vdom | default('root') }}"
     state: "{{ dataplan.state | default('present') }}"

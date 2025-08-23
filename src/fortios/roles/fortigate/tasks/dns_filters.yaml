@@ -2,7 +2,7 @@
 # Configure DNS filter domain filters and profiles
 
 # Configure DNS filter domain filters
-- name: Configure DNS filter domain - {{ item.dnsfilter_domain_filter.name }}
+- name: "Configure DNS filter domain: {{ item.dnsfilter_domain_filter.name }}"
   fortinet.fortios.fortios_dnsfilter_domain_filter:
     access_token: "{{ access_token }}"
     state: "{{ item.state | default('present') }}"
@@ -13,7 +13,7 @@
   when: fortigate_dnsfilter_domain_filters | length > 0
 
 # Configure DNS filter profiles
-- name: Configure DNS filter profile - {{ item.dnsfilter_profile.name }}
+- name: "Configure DNS filter profile: {{ item.dnsfilter_profile.name }}"
   fortinet.fortios.fortios_dnsfilter_profile:
     access_token: "{{ access_token }}"
     state: "{{ item.state | default('present') }}"

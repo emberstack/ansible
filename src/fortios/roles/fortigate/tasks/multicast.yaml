@@ -2,7 +2,7 @@
 # Multicast policy configuration tasks
 
 # Configure multicast policies
-- name: Configure multicast policy - {{ item.firewall_multicast_policy.name }}
+- name: "Configure multicast policy: {{ item.firewall_multicast_policy.name }}"
   fortinet.fortios.fortios_firewall_multicast_policy:
     state: "{{ item.state | default('present') }}"
     access_token: "{{ access_token }}"

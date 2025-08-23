@@ -13,10 +13,6 @@ fortigate_connection_retries: 3
 fortigate_connection_delay: 5
 fortigate_api_timeout: 60
 
-# Default admin settings
-fortigate_admin_port: 443
-fortigate_admin_sport: 5443
-
 # Default state for all objects
 fortigate_default_state: "present"
 

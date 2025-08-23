@@ -3,7 +3,7 @@
 # Using standardized patterns for consistency
 
 # Configure firewall addresses
-- name: Configure firewall address - {{ item.firewall_address.name }}
+- name: "Configure firewall address: {{ item.firewall_address.name }}"
   fortinet.fortios.fortios_firewall_address:
     state: "{{ item.state | default(fortigate_default_state) }}"
     access_token: "{{ access_token }}"
@@ -15,7 +15,7 @@
   when: fortigate_firewall_addresses is defined and fortigate_firewall_addresses | length > 0
 
 # Configure firewall address groups
-- name: Configure firewall address group - {{ item.firewall_addrgrp.name }}
+- name: "Configure firewall address group: {{ item.firewall_addrgrp.name }}"
   fortinet.fortios.fortios_firewall_addrgrp:
     state: "{{ item.state | default(fortigate_default_state) }}"
     access_token: "{{ access_token }}"

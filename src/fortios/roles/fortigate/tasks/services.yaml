@@ -2,7 +2,7 @@
 # Firewall service configuration tasks
 
 # Configure custom firewall services
-- name: Configure firewall service - {{ item.firewall_service_custom.name }}
+- name: "Configure firewall service: {{ item.firewall_service_custom.name }}"
   fortinet.fortios.fortios_firewall_service_custom:
     state: "{{ item.state | default(fortigate_default_state) }}"
     access_token: "{{ access_token }}"
@@ -14,7 +14,7 @@
   when: fortigate_firewall_services is defined
 
 # Configure firewall service groups if defined
-- name: Configure firewall service group - {{ item.firewall_service_group.name }}
+- name: "Configure firewall service group: {{ item.firewall_service_group.name }}"
   fortinet.fortios.fortios_firewall_service_group:
     state: "{{ item.state | default(fortigate_default_state) }}"
     access_token: "{{ access_token }}"

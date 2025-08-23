@@ -2,7 +2,7 @@
 # IP Pool configuration tasks
 
 # Configure IP pools
-- name: Configure IP pool - {{ item.firewall_ippool.name }}
+- name: "Configure IP pool: {{ item.firewall_ippool.name }}"
   fortinet.fortios.fortios_firewall_ippool:
     state: "{{ item.state | default('present') }}"
     access_token: "{{ access_token }}"

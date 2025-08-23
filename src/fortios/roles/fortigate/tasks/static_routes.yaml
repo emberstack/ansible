@@ -1,7 +1,7 @@
 ---
 # Static route configuration tasks
 
-- name: Configure static route - {{ static_route.router_static.seq_num | default(static_route.router_static.dst | default('route')) }}
+- name: "Configure static route: {{ static_route.router_static.seq_num | default(static_route.router_static.dst | default('route')) }}"
   fortinet.fortios.fortios_router_static:
     state: "{{ static_route.state | default('present') }}"
     access_token: "{{ access_token }}"

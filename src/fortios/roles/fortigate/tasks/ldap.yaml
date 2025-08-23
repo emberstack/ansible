@@ -1,7 +1,7 @@
 ---
 # Configure LDAP servers
 
-- name: Configure LDAP server - {{ item.user_ldap.name }}
+- name: "Configure LDAP server: {{ item.user_ldap.name }}"
   fortinet.fortios.fortios_user_ldap:
     access_token: "{{ access_token }}"
     state: "{{ item.state | default('present') }}"

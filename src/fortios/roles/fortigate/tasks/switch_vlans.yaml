@@ -2,7 +2,7 @@
 # Switch VLAN configuration tasks
 
 # Configure switch VLANs
-- name: Configure switch VLAN - {{ item.name }}
+- name: "Configure switch VLAN: {{ item.switch_controller_vlan.name }}"
   fortinet.fortios.fortios_switch_controller_vlan:
     state: "{{ item.state | default('present') }}"
     access_token: "{{ access_token }}"

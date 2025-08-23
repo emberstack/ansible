@@ -8,9 +8,9 @@
 
 - name: Set facts for port management
   set_fact:
-    current_https_port: "{{ current_config.meta.results.admin_sport | default(443) | string }}"
-    desired_https_port: "{{ settings.global.admin.https_port | string }}"
-    port_change_needed: "{{ (current_config.meta.results.admin_sport | default(443) | string) != (settings.global.admin.https_port | string) }}"
+    current_https_port: "{{ current_config.meta.results.admin_sport | default(443) | int }}"
+    desired_https_port: "{{ settings.global.admin.https_port | int }}"
+    port_change_needed: "{{ (current_config.meta.results.admin_sport | default(443) | int) != (settings.global.admin.https_port | int) }}"
 
 - name: Display port change info
   debug:

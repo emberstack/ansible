@@ -1,7 +1,7 @@
 ---
 # Configure Dynamic DNS (DDNS)
 
-- name: Configure DDNS - {{ item.system_ddns.ddns_domain | default(item.system_ddns.ddnsid) }}
+- name: "Configure DDNS: {{ item.system_ddns.ddns_domain | default(item.system_ddns.ddnsid) }}"
   fortinet.fortios.fortios_system_ddns:
     access_token: "{{ access_token }}"
     state: "{{ item.state | default('present') }}"

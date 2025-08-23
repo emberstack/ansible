@@ -1,7 +1,7 @@
 ---
 # Configure external resources (threat feeds, block lists, etc.)
 
-- name: Configure external resource - {{ item.system_external_resource.name }}
+- name: "Configure external resource: {{ item.system_external_resource.name }}"
   fortinet.fortios.fortios_system_external_resource:
     access_token: "{{ access_token }}"
     state: "{{ item.state | default('present') }}"

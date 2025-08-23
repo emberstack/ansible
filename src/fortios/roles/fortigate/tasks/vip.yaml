@@ -2,7 +2,7 @@
 # Virtual IP (VIP) configuration tasks
 
 # Configure VIPs
-- name: Configure VIP - {{ item.firewall_vip.name }}
+- name: "Configure VIP: {{ item.firewall_vip.name }}"
   fortinet.fortios.fortios_firewall_vip:
     state: "{{ item.state | default(fortigate_default_state) }}"
     access_token: "{{ access_token }}"
@@ -14,7 +14,7 @@
   when: fortigate_firewall_vips is defined
 
 # Configure VIP groups if defined
-- name: Configure VIP group - {{ item.firewall_vipgrp.name }}
+- name: "Configure VIP group: {{ item.firewall_vipgrp.name }}"
   fortinet.fortios.fortios_firewall_vipgrp:
     state: "{{ item.state | default(fortigate_default_state) }}"
     access_token: "{{ access_token }}"
