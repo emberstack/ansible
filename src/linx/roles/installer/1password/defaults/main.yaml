@@ -1,0 +1,8 @@
+---
+# Default variables for 1Password installer
+
+# Install 1Password desktop application
+onepassword_install_app: false
+
+# Install 1Password CLI
+onepassword_install_cli: true
