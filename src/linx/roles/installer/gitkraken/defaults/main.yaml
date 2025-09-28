@@ -1,0 +1,6 @@
+---
+# GitKraken installation defaults
+
+# Install for specific users
+gitkraken_install_for_users:
+  - superadmin

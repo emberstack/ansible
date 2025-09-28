@@ -1,0 +1,6 @@
+---
+# Lens installation defaults
+
+# Install for specific users
+lens_install_for_users:
+  - superadmin

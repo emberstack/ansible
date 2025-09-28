@@ -1,0 +1,23 @@
+---
+# Install GitKraken Desktop
+
+- name: Install GitKraken Desktop
+  block:
+    - name: Download GitKraken .deb package
+      ansible.builtin.get_url:
+        url: https://release.axocdn.com/linux/gitkraken-amd64.deb
+        dest: /tmp/gitkraken-amd64.deb
+        mode: '0644'
+        force: yes  # Always download latest version (follows redirects automatically)
+
+    - name: Install or update GitKraken from .deb package
+      ansible.builtin.apt:
+        deb: /tmp/gitkraken-amd64.deb
+        state: present
+      register: gitkraken_install
+
+  always:
+    - name: Clean up GitKraken .deb package
+      ansible.builtin.file:
+        path: /tmp/gitkraken-amd64.deb
+        state: absent
