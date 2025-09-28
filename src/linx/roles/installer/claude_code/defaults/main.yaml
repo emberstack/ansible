@@ -1,0 +1,11 @@
+---
+# Claude Code installer defaults
+
+# Install Claude Code globally for all users
+claude_code_install_global: true
+
+# Install for specific users (when install_global is false)
+claude_code_install_for_users: []
+
+# Install ripgrep for enhanced search functionality
+claude_code_install_ripgrep: true

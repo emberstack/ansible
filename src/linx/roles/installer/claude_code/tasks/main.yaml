@@ -1,0 +1,27 @@
+---
+# Install Claude Code CLI
+
+# Optional: Install ripgrep for enhanced search functionality
+- name: Install ripgrep for search functionality
+  ansible.builtin.apt:
+    name: ripgrep
+    state: present
+  when: claude_code_install_ripgrep | bool
+
+# Install Claude Code globally
+- name: Install Claude Code globally
+  ansible.builtin.npm:
+    name: "@anthropic-ai/claude-code"
+    global: yes
+    state: latest
+  when: claude_code_install_global | bool
+
+# Install Claude Code for specific users
+- name: Install Claude Code for specific users
+  become_user: "{{ item }}"
+  ansible.builtin.npm:
+    name: "@anthropic-ai/claude-code"
+    global: no
+    state: latest
+  loop: "{{ claude_code_install_for_users }}"
+  when: not claude_code_install_global and claude_code_install_for_users | length > 0
