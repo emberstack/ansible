@@ -5,15 +5,16 @@
   block:
     - name: Download GitKraken .deb package
       ansible.builtin.get_url:
-        url: https://release.axocdn.com/linux/gitkraken-amd64.deb
+        url: https://release.gitkraken.com/linux/gitkraken-amd64.deb
         dest: /tmp/gitkraken-amd64.deb
         mode: '0644'
-        force: yes  # Always download latest version (follows redirects automatically)
+        force: yes  # Always download latest version
 
     - name: Install or update GitKraken from .deb package
       ansible.builtin.apt:
         deb: /tmp/gitkraken-amd64.deb
         state: present
+        force: yes  # Allow reinstall/update even if same or newer version exists
       register: gitkraken_install
 
   always:
