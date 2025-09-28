@@ -1,0 +1,42 @@
+---
+# Configure remote access (Remote Desktop and Remote Login)
+
+# Per-user Remote Desktop configuration
+- name: Configure remote desktop (RDP) access
+  become_user: "{{ item }}"
+  ansible.builtin.command:
+    cmd: "grdctl rdp {{ 'enable' if remote_desktop_rdp_enable else 'disable' }}"
+  loop: "{{ remote_desktop_configure_for_users if remote_desktop_configure_for_users else [ansible_user_id] }}"
+  when: remote_desktop_rdp_enable is defined
+  register: rdp_result
+  changed_when: rdp_result.rc == 0
+
+- name: Configure remote desktop (RDP) view-only mode
+  become_user: "{{ item }}"
+  ansible.builtin.command:
+    cmd: "grdctl rdp {{ 'enable-view-only' if remote_desktop_rdp_view_only else 'disable-view-only' }}"
+  loop: "{{ remote_desktop_configure_for_users if remote_desktop_configure_for_users else [ansible_user_id] }}"
+  when:
+    - remote_desktop_rdp_enable is defined
+    - remote_desktop_rdp_enable
+  register: view_mode_result
+  changed_when: view_mode_result.rc == 0
+
+# System-wide Remote Login configuration
+- name: Configure remote login (system RDP) access
+  ansible.builtin.command:
+    cmd: "grdctl --system rdp {{ 'enable' if remote_login_rdp_enable else 'disable' }}"
+  when: remote_login_rdp_enable is defined
+  register: system_rdp_result
+  changed_when: system_rdp_result.rc == 0
+  become: yes
+
+- name: Configure remote login (system RDP) view-only mode
+  ansible.builtin.command:
+    cmd: "grdctl --system rdp {{ 'enable-view-only' if remote_login_rdp_view_only else 'disable-view-only' }}"
+  when:
+    - remote_login_rdp_enable is defined
+    - remote_login_rdp_enable
+  register: system_view_mode_result
+  changed_when: system_view_mode_result.rc == 0
+  become: yes

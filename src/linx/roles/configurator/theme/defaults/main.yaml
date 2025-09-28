@@ -1,0 +1,9 @@
+---
+# Theme configurator defaults
+
+# Theme: 'default' or 'prefer-dark'
+theme: 'default'
+
+# List of users to configure theme for
+# If empty, will use the current ansible user
+theme_configure_for_users: []

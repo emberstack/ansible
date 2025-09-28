@@ -1,0 +1,14 @@
+---
+# Remote configurator defaults
+
+# Remote Desktop (per-user RDP access)
+remote_desktop_rdp_enable: false
+remote_desktop_rdp_view_only: false
+
+# Remote Login (system-wide RDP access)
+remote_login_rdp_enable: false
+remote_login_rdp_view_only: false
+
+# List of users to configure remote desktop for
+# If empty, will use the current ansible user
+remote_desktop_configure_for_users: []

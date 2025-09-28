@@ -1,9 +1,0 @@
----
-# Desktop configurator defaults
-
-# Desktop mode: 'default' or 'prefer-dark'
-desktop_mode: 'default'
-
-# List of users to configure desktop for
-# If empty, will use the current ansible user
-desktop_configure_for_users: []

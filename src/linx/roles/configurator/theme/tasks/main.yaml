@@ -1,5 +1,5 @@
 ---
-# Configure desktop settings
+# Configure desktop theme
 
 - name: Install psutil for dconf module
   ansible.builtin.apt:
@@ -11,6 +11,6 @@
   become_user: "{{ item }}"
   community.general.dconf:
     key: "/org/gnome/desktop/interface/color-scheme"
-    value: "'{{ desktop_mode }}'"
+    value: "'{{ theme }}'"
     state: present
-  loop: "{{ desktop_configure_for_users if desktop_configure_for_users else [ansible_user_id] }}"
+  loop: "{{ theme_configure_for_users if theme_configure_for_users else [ansible_user_id] }}"
