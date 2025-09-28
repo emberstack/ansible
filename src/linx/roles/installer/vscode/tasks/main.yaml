@@ -29,17 +29,12 @@
     owner: root
     group: root
     mode: '0644'
-  register: repo_added
-
-- name: Update apt cache after adding repository
-  apt:
-    update_cache: yes
-  when: repo_added is changed
 
 - name: Install Visual Studio Code
   apt:
     name: code
     state: latest
+    update_cache: yes
 
 - name: Install VSCode extensions for specific users
   become: yes

@@ -13,19 +13,12 @@
     dest: /usr/share/keyrings/lens-archive-keyring.asc
     mode: '0644'
     force: yes  # Always download to ensure we have the latest valid key
-  register: gpg_key_updated
 
 - name: Add Lens APT repository
   ansible.builtin.apt_repository:
     repo: "deb [arch=amd64 signed-by=/usr/share/keyrings/lens-archive-keyring.asc] https://downloads.k8slens.dev/apt/debian stable main"
     state: present
     filename: lens
-  register: repo_updated
-
-- name: Update apt cache after repository or key changes
-  ansible.builtin.apt:
-    update_cache: yes
-  when: gpg_key_updated.changed or repo_updated.changed
 
 - name: Install or update Lens Desktop
   ansible.builtin.apt:
