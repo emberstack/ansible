@@ -1,5 +1,0 @@
----
-dependencies:
-  - role: installer.nodejs
-    vars:
-      nodejs_major_version: 20

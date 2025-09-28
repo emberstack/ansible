@@ -2,4 +2,4 @@
 # Node.js installer defaults
 
 # Node.js major version to install (18, 20, 22, etc.)
-nodejs_major_version: 20
+nodejs_major_version: 22
