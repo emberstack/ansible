@@ -13,12 +13,14 @@
     gpg --dearmor --output /usr/share/keyrings/1password-archive-keyring.gpg
   args:
     creates: /usr/share/keyrings/1password-archive-keyring.gpg
+  register: gpg_key_result
 
 - name: Add 1Password APT repository
   ansible.builtin.apt_repository:
     repo: "deb [arch=amd64 signed-by=/usr/share/keyrings/1password-archive-keyring.gpg] https://downloads.1password.com/linux/debian/amd64 stable main"
     state: present
     filename: 1password
+  register: repo_result
 
 # Debsig verification setup for package integrity
 - name: Create debsig policy directory
@@ -51,12 +53,12 @@
   ansible.builtin.apt:
     name: 1password
     state: latest  # Ensures latest version is installed
-    update_cache: yes  # Always check for updates
+    update_cache: "{{ gpg_key_result.changed or repo_result.changed }}"
   when: onepassword_install_app | bool
 
 - name: Install or update 1Password CLI
   ansible.builtin.apt:
     name: 1password-cli
     state: latest  # Ensures latest version is installed
-    update_cache: yes  # Always check for updates
+    update_cache: "{{ gpg_key_result.changed or repo_result.changed }}"
   when: onepassword_install_cli | bool

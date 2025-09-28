@@ -22,15 +22,17 @@
     gpg --dearmor --output /etc/apt/keyrings/nodesource.gpg
   args:
     creates: /etc/apt/keyrings/nodesource.gpg
+  register: gpg_key_result
 
 - name: Add NodeSource repository
   ansible.builtin.apt_repository:
     repo: "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_{{ nodejs_major_version }}.x nodistro main"
     state: present
     filename: nodesource
+  register: repo_result
 
 - name: Install Node.js and npm
   ansible.builtin.apt:
     name: nodejs
     state: latest
-    update_cache: yes
+    update_cache: "{{ gpg_key_result.changed or repo_result.changed }}"

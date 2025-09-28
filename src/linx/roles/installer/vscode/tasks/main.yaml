@@ -8,13 +8,13 @@
       - gpg
       - apt-transport-https
     state: present
-    update_cache: yes
 
 - name: Download and install Microsoft GPG key
   shell: |
     curl -fsSL https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor -o /usr/share/keyrings/microsoft.gpg
   args:
     creates: /usr/share/keyrings/microsoft.gpg
+  register: gpg_key_result
 
 - name: Add VSCode repository
   copy:
@@ -29,12 +29,13 @@
     owner: root
     group: root
     mode: '0644'
+  register: repo_result
 
 - name: Install Visual Studio Code
   apt:
     name: code
     state: latest
-    update_cache: yes
+    update_cache: "{{ gpg_key_result.changed or repo_result.changed }}"
 
 - name: Install VSCode extensions for specific users
   become: yes
