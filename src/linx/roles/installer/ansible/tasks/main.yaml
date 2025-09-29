@@ -1,0 +1,26 @@
+---
+# Install Ansible via pipx
+
+- name: Install Ansible using pipx
+  ansible.builtin.command:
+    cmd: pipx install ansible
+  register: install_result
+  changed_when: "'installed package' in install_result.stdout"
+  failed_when:
+    - install_result.rc != 0
+    - "'already seems to be installed' not in install_result.stderr"
+
+- name: Upgrade Ansible to latest version
+  ansible.builtin.command:
+    cmd: pipx upgrade ansible
+  register: upgrade_result
+  changed_when: "'upgraded package' in upgrade_result.stdout"
+  when: install_result.changed == false
+
+- name: Install additional Ansible collections
+  ansible.builtin.command:
+    cmd: ansible-galaxy collection install {{ item }}
+  loop: "{{ ansible_collections }}"
+  when: ansible_collections | length > 0
+  register: collection_result
+  changed_when: "'installed' in collection_result.stdout"

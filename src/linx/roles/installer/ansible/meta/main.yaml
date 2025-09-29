@@ -1,0 +1,25 @@
+---
+galaxy_info:
+  author: EmberStack
+  description: Install Ansible automation platform via pipx
+  company: EmberStack
+  license: MIT
+  min_ansible_version: "2.9"
+  platforms:
+    - name: Ubuntu
+      versions:
+        - focal
+        - jammy
+        - noble
+    - name: Debian
+      versions:
+        - bullseye
+        - bookworm
+  galaxy_tags:
+    - ansible
+    - automation
+    - pipx
+    - installer
+
+dependencies:
+  - emberstack.linx.installer.pipx

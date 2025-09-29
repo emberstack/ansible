@@ -1,0 +1,6 @@
+---
+# Ansible installer defaults
+
+# List of additional Ansible collections to install
+# Example: ['community.general', 'ansible.posix']
+ansible_collections: []
