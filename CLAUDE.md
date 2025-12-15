@@ -68,11 +68,11 @@ The FortiGate role (`src/fortios/roles/fortigate/`) uses a highly modular archit
 
 ## Dependencies
 
-- Ansible 2.9+
-- Python 3.6+
+- Ansible 2.15+
+- Python 3.9+
 - Required collections:
-  - `fortinet.fortios` >= 2.4.0
-  - `ansible.netcommon` >= 2.0.0
+  - `fortinet.fortios` >= 2.4.2
+  - `ansible.netcommon` >= 8.2.0
 
 ## Development Guidelines
 

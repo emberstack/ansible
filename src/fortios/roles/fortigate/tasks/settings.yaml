@@ -136,7 +136,6 @@
       apply_to: "{{ settings.password_policy.apply_to }}"
 
       minimum_length: "{{ settings.password_policy.min_length }}"
-      min_change_characters: "{{ settings.password_policy.min_change_characters }}"
 
       min_upper_case_letter: "{{ settings.password_policy.character_requirements.min_upper_case }}"
       min_lower_case_letter: "{{ settings.password_policy.character_requirements.min_lower_case }}"
@@ -144,8 +143,8 @@
       min_number: "{{ settings.password_policy.character_requirements.min_number }}"
 
       expire_status: "{{ 'enable' if (settings.password_policy.expiration.enabled) else 'disable' }}"
-      expire_day: "{{ settings.password_policy.expiration.days }}"
       reuse_password: "{{ 'enable' if (settings.password_policy.reuse) else 'disable' }}"
+      login_lockout_upon_weaker_encryption: "{{ 'enable' if (settings.password_policy.login_lockout_upon_weaker_encryption | default(false)) else 'disable' }}"
 
 # View Settings
 - name: Configure GUI theme and settings

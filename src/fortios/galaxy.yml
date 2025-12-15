@@ -19,7 +19,9 @@ tags:
   - security
   - firewall
   - automation
-dependencies: {}
+dependencies:
+  fortinet.fortios: ">=2.4.2"
+  ansible.netcommon: ">=8.2.0"
 repository: https://github.com/emberstack/ansible
 documentation: https://github.com/emberstack/ansible
 homepage: https://github.com/emberstack/ansible
