@@ -143,6 +143,7 @@
       min_number: "{{ settings.password_policy.character_requirements.min_number }}"
 
       expire_status: "{{ 'enable' if (settings.password_policy.expiration.enabled) else 'disable' }}"
+      expire_day: "{{ settings.password_policy.expiration.days }}"
       reuse_password: "{{ 'enable' if (settings.password_policy.reuse) else 'disable' }}"
       login_lockout_upon_weaker_encryption: "{{ 'enable' if (settings.password_policy.login_lockout_upon_weaker_encryption | default(false)) else 'disable' }}"
 
